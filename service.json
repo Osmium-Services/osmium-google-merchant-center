@@ -1,0 +1,58 @@
+{
+    "id": "google-merchant-center",
+    "name": "Google Merchant Center",
+    "version": "1.0.0",
+    "description": "Pushes product data to Google Merchant Center (Merchant API) whenever a product is saved, status-changed or removed. Service-account auth, admin-editable credentials, test connection and one-click full sync",
+    "author": {
+        "name": "Gavin Cox"
+    },
+    "license": "proprietary",
+
+    "requires": {
+        "osmium": ">=1.0.0",
+        "php": ">=8.1",
+        "services": []
+    },
+
+    "autoload": [
+        "models"
+    ],
+
+    "hooks": {
+        "product.saved": [
+            "Osmium\\Services\\GoogleMerchantCenter\\Models\\GoogleMerchantCenterSync::onProductSaved"
+        ],
+        "product.removed": [
+            "Osmium\\Services\\GoogleMerchantCenter\\Models\\GoogleMerchantCenterSync::onProductRemoved"
+        ]
+    },
+
+    "admin": {
+        "menu": {
+            "section": "Content",
+            "items": [
+                {
+                    "id": "google-merchant-center",
+                    "label": "Google Merchant Center",
+                    "icon": "bx bxl-google",
+                    "route": "admin/settings/google-merchant-center",
+                    "activePattern": "admin/settings/google-merchant-center",
+                    "role": null
+                }
+            ]
+        },
+        "routes": {
+            "admin/settings/google-merchant-center": {
+                "controller": "controllers/GoogleMerchantCenterController.php",
+                "class": "Osmium\\Services\\GoogleMerchantCenter\\Controllers\\GoogleMerchantCenterController",
+                "method": "index",
+                "title": "Google Merchant Center"
+            }
+        }
+    },
+
+    "setup": {
+        "requiresConnection": true,
+        "postInstallNote": "Disabled until configured. Needs a Google Cloud service account added as a user on the Merchant Center account, with its Merchant ID, primary data source ID, and service-account email + private key entered on the settings page. Run 'Test connection', then 'Sync all products' for the initial catalogue push; after that products sync automatically on save."
+    }
+}

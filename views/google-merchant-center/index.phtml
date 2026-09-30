@@ -1,0 +1,103 @@
+<?php $gmc = $admin['config']['gmc'] ?? []; ?>
+<div class="d-flex justify-content-between align-items-center py-3 mb-4">
+    <h4 class="mb-0">
+        <span class="text-muted fw-light">Services /</span> Google Merchant Center
+    </h4>
+    <button type="submit" form="settings-form" class="btn btn-primary">
+        <i class="bx bx-save me-1"></i> Save Settings
+    </button>
+</div>
+
+<?php if ($admin['flash'] ?? null): ?>
+    <div class="alert alert-<?= \htmlspecialchars($admin['flash']['type']) ?> alert-dismissible fade show" role="alert">
+        <?= \htmlspecialchars($admin['flash']['text']) ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
+
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <form method="POST" action="<?= $admin['basePath'] ?>settings/google-merchant-center/" id="settings-form">
+            <input type="hidden" name="token" value="<?= $template['formToken'] ?? '' ?>">
+            <input type="hidden" name="action" value="save">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bx bxl-google me-2"></i>Google Merchant Center</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="enabled" name="enabled"
+                                <?= !empty($gmc['enabled']) ? 'checked' : '' ?>>
+                            <label class="form-check-label fw-semibold" for="enabled">Enabled</label>
+                        </div>
+                        <div class="form-text">Pushes a product to Google whenever it is saved, status-changed or removed. Discontinued and unpriced products are removed instead.</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="merchant_id" class="form-label fw-semibold">Merchant ID</label>
+                            <input type="text" class="form-control" id="merchant_id" name="merchant_id"
+                                value="<?= \htmlspecialchars($gmc['merchantId'] ?? '') ?>">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="data_source_id" class="form-label fw-semibold">Data Source ID</label>
+                            <input type="text" class="form-control" id="data_source_id" name="data_source_id"
+                                value="<?= \htmlspecialchars($gmc['dataSourceId'] ?? '') ?>">
+                            <div class="form-text">The primary API data source products are pushed into.</div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="content_language" class="form-label fw-semibold">Content Language</label>
+                            <input type="text" class="form-control" id="content_language" name="content_language"
+                                value="<?= \htmlspecialchars($gmc['contentLanguage'] ?? 'en') ?>">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="feed_label" class="form-label fw-semibold">Feed Label</label>
+                            <input type="text" class="form-control" id="feed_label" name="feed_label"
+                                value="<?= \htmlspecialchars($gmc['feedLabel'] ?? 'GB') ?>">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="client_email" class="form-label fw-semibold">Service Account Email</label>
+                        <input type="text" class="form-control" id="client_email" name="client_email"
+                            value="<?= \htmlspecialchars($gmc['clientEmail'] ?? '') ?>">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="private_key" class="form-label fw-semibold">Service Account Private Key</label>
+                        <textarea class="form-control font-monospace" id="private_key" name="private_key" rows="3"
+                            placeholder="<?= !empty($gmc['privateKey'] ?? '') ? 'Leave blank to keep current' : '-----BEGIN PRIVATE KEY-----' ?>"></textarea>
+                        <div class="form-text">Stored server-side and never shown again.</div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bx bx-wrench me-2"></i>Tools</h5>
+            </div>
+            <div class="card-body d-flex gap-2">
+                <form method="POST" action="<?= $admin['basePath'] ?>settings/google-merchant-center/">
+                    <input type="hidden" name="token" value="<?= $template['formToken'] ?? '' ?>">
+                    <input type="hidden" name="action" value="test">
+                    <button type="submit" class="btn btn-outline-secondary">
+                        <i class="bx bx-plug me-1"></i> Test connection
+                    </button>
+                </form>
+                <form method="POST" action="<?= $admin['basePath'] ?>settings/google-merchant-center/">
+                    <input type="hidden" name="token" value="<?= $template['formToken'] ?? '' ?>">
+                    <input type="hidden" name="action" value="sync_all">
+                    <button type="submit" class="btn btn-outline-secondary">
+                        <i class="bx bx-sync me-1"></i> Sync all products
+                    </button>
+                </form>
+            </div>
+            <div class="card-footer text-muted small">Test connection uses the saved settings. Sync all pushes every active product and can take a while on a large catalogue.</div>
+        </div>
+    </div>
+</div>
