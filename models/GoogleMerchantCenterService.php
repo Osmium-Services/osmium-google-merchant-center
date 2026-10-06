@@ -13,6 +13,8 @@
 
 namespace Osmium\Services\GoogleMerchantCenter\Models;
 
+use Osmium\Core\Library\StoreFinance;
+
 use Osmium\Core\Library\Cache;
 use Osmium\Modules\Shop\Models\ShopProduct;
 
@@ -245,10 +247,11 @@ class GoogleMerchantCenterService
         ShopProduct $product,
         string $fqdn,
         string $imagesPath,
-        string $currency,
-        float $taxRatePercent,
+        StoreFinance $finance,
         ?float $deliveryChargeExcTax = null,
     ): array {
+        $currency = $finance->currencyCode();
+        $taxRatePercent = $finance->taxRatePercent();
         $fqdn = \rtrim($fqdn, '/');
         $priceIncTax = $product->priceExcTax * (1 + ($taxRatePercent / 100));
         $availability = self::availabilityFromSchemaRef($product->schemaRef);
@@ -297,7 +300,7 @@ class GoogleMerchantCenterService
         if ($hasDeliveryCharge) {
             $deliveryChargeIncTax = $deliveryChargeExcTax * (1 + ($taxRatePercent / 100));
             $attributes['shipping'] = [[
-                'country' => 'GB',
+                'country' => $finance->country(),
                 'price' => [
                     'amountMicros' => self::priceMicros($deliveryChargeIncTax),
                     'currencyCode' => $currency,

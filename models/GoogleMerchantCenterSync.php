@@ -24,7 +24,7 @@ class GoogleMerchantCenterSync
         $productId = (int) $payload['productId'];
 
         try {
-            $service = GoogleMerchantCenterConfig::buildService();
+            $service = GoogleMerchantCenterConfig::buildService($payload['osmium']->finance());
             $product = $payload['shop']->model->product;
 
             self::syncProduct(service: $service, product: $product, osmium: $payload['osmium'], productId: $productId);
@@ -44,7 +44,7 @@ class GoogleMerchantCenterSync
         $productId = (int) $payload['productId'];
 
         try {
-            GoogleMerchantCenterConfig::buildService()->deleteProduct((string) $productId);
+            GoogleMerchantCenterConfig::buildService($payload['osmium']->finance())->deleteProduct((string) $productId);
         } catch (\Exception $e) {
             \error_log("Google Merchant Center removal failed for product {$productId}: " . $e->getMessage());
         }
@@ -58,7 +58,7 @@ class GoogleMerchantCenterSync
      */
     public static function syncAll(object $osmium, object $product): array
     {
-        $service = GoogleMerchantCenterConfig::buildService();
+        $service = GoogleMerchantCenterConfig::buildService($osmium->finance());
         $productIds = \array_column($product->all(), 'id');
         $counts = ['pushed' => 0, 'skipped' => 0, 'failed' => 0];
 
@@ -129,8 +129,7 @@ class GoogleMerchantCenterSync
             product: $product,
             fqdn: $config->site->FQDN ?? '',
             imagesPath: $config->site->imagesPath,
-            currency: $config->shop->currency ?? 'GBP',
-            taxRatePercent: (float) ($config->shop->taxRatePercent ?? 20),
+            finance: $osmium->finance(),
             deliveryChargeExcTax: $deliveryCharge !== null ? (float) $deliveryCharge : null,
         );
     }

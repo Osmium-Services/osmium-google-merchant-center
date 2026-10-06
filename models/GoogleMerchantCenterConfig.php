@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Osmium\Services\GoogleMerchantCenter\Models;
 
+use Osmium\Core\Library\StoreFinance;
+
 /**
  * Google Merchant Center configuration.
  *
@@ -66,9 +68,10 @@ class GoogleMerchantCenterConfig
     }
 
     /**
-     * Builds the API client from the stored credentials.
+     * Builds the API client from the stored credentials. The feed label is the store's
+     * country, so it is never a second setting that could disagree with Shop settings.
      */
-    public static function buildService(): GoogleMerchantCenterService
+    public static function buildService(StoreFinance $finance): GoogleMerchantCenterService
     {
         $config = self::get();
 
@@ -76,7 +79,7 @@ class GoogleMerchantCenterConfig
             merchantId: (string) $config->merchantId,
             dataSourceId: (string) $config->dataSourceId,
             contentLanguage: (string) $config->contentLanguage,
-            feedLabel: (string) $config->feedLabel,
+            feedLabel: $finance->country(),
             clientEmail: (string) $config->clientEmail,
             privateKey: (string) $config->privateKey,
         );
@@ -89,7 +92,6 @@ class GoogleMerchantCenterConfig
             'merchantId' => '',
             'dataSourceId' => '',
             'contentLanguage' => 'en',
-            'feedLabel' => 'GB',
             'clientEmail' => '',
             'privateKey' => '',
         ];

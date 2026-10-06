@@ -1,7 +1,7 @@
 {
     "id": "google-merchant-center",
     "name": "Google Merchant Center",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "description": "Pushes product data to Google Merchant Center (Merchant API) whenever a product is saved, status-changed or removed. Service-account auth, admin-editable credentials, test connection and one-click full sync",
     "category": "marketing-analytics",
     "author": {

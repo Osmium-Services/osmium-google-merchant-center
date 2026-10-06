@@ -49,15 +49,11 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-12 mb-3">
                             <label for="content_language" class="form-label fw-semibold">Content Language</label>
                             <input type="text" class="form-control" id="content_language" name="content_language"
                                 value="<?= \htmlspecialchars($gmc['contentLanguage'] ?? 'en') ?>">
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="feed_label" class="form-label fw-semibold">Feed Label</label>
-                            <input type="text" class="form-control" id="feed_label" name="feed_label"
-                                value="<?= \htmlspecialchars($gmc['feedLabel'] ?? 'GB') ?>">
+                            <div class="form-text">The feed label is the store's country, from Shop settings.</div>
                         </div>
                     </div>
 

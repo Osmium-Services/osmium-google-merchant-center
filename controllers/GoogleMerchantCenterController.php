@@ -60,7 +60,6 @@ class GoogleMerchantCenterController extends AdminController
             'merchantId' => \trim($_POST['merchant_id'] ?? ''),
             'dataSourceId' => \trim($_POST['data_source_id'] ?? ''),
             'contentLanguage' => \trim($_POST['content_language'] ?? 'en'),
-            'feedLabel' => \trim($_POST['feed_label'] ?? 'GB'),
             'clientEmail' => \trim($_POST['client_email'] ?? ''),
             'privateKey' => $privateKey,
         ]);
@@ -75,7 +74,7 @@ class GoogleMerchantCenterController extends AdminController
 
     private function testConnection(): array
     {
-        $result = GoogleMerchantCenterConfig::buildService()->testConnection();
+        $result = GoogleMerchantCenterConfig::buildService($this->osmium->finance())->testConnection();
         $name = $result['accountName'] ?? null;
 
         $text = $result['success']
