@@ -74,7 +74,7 @@ class GoogleMerchantCenterController extends AdminController
 
     private function testConnection(): array
     {
-        $result = GoogleMerchantCenterConfig::buildService($this->osmium->finance())->testConnection();
+        $result = GoogleMerchantCenterConfig::buildService(\Osmium\Core\Library\StoreFinance::forOsmium($this->osmium))->testConnection();
         $name = $result['accountName'] ?? null;
 
         $text = $result['success']
