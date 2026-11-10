@@ -16,7 +16,7 @@
 <?php endif; ?>
 
 <div class="row justify-content-center">
-    <div class="col-lg-6">
+    <div class="col-lg-4">
         <form method="POST" action="<?= $admin['basePath'] ?>settings/google-merchant-center/" id="settings-form">
             <input type="hidden" name="token" value="<?= $template['formToken'] ?? '' ?>">
             <input type="hidden" name="action" value="save">
@@ -34,18 +34,16 @@
                         <div class="form-text">Pushes a product to Google whenever it is saved, status-changed or removed. Discontinued and unpriced products are removed instead.</div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="merchant_id" class="form-label fw-semibold">Merchant ID</label>
-                            <input type="text" class="form-control" id="merchant_id" name="merchant_id"
-                                value="<?= \htmlspecialchars($gmc['merchantId'] ?? '') ?>">
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="data_source_id" class="form-label fw-semibold">Data Source ID</label>
-                            <input type="text" class="form-control" id="data_source_id" name="data_source_id"
-                                value="<?= \htmlspecialchars($gmc['dataSourceId'] ?? '') ?>">
-                            <div class="form-text">The primary API data source products are pushed into.</div>
-                        </div>
+                    <div class="mb-3">
+                        <label for="merchant_id" class="form-label fw-semibold">Merchant ID</label>
+                        <input type="text" class="form-control" id="merchant_id" name="merchant_id"
+                            value="<?= \htmlspecialchars($gmc['merchantId'] ?? '') ?>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="data_source_id" class="form-label fw-semibold">Data Source ID</label>
+                        <input type="text" class="form-control" id="data_source_id" name="data_source_id"
+                            value="<?= \htmlspecialchars($gmc['dataSourceId'] ?? '') ?>">
+                        <div class="form-text">The primary API data source products are pushed into.</div>
                     </div>
 
                     <div class="row">
