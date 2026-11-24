@@ -1,6 +1,7 @@
 ---
 title: Send your products to Google Merchant Center
 tags: google merchant center, shopping, product feed, google shopping, service account, products
+page: admin/settings/google-merchant-center
 ---
 
 **Google Merchant Center** sends your products to Google whenever a product is saved, its status changes or it is removed. Discontinued and unpriced products are removed instead.
